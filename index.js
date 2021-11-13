@@ -16,8 +16,12 @@ const uniqueValues = () => {
   let count = 0
 
   for (const key in collection) {
+
     if (collection[key].size === 1) {
-      count += 1
+      const parse = [...collection[key]]
+      if (parse[0][1] === 1) {
+        count += 1
+      }
     }
   }
 
@@ -51,9 +55,14 @@ const existInAtLeastTen = () => {
 const addToCollection = (file, name) => {
   for (const str of file) {
     if (collection[str]) {
-      collection[str].add(name)
+      if (collection[str].has(name)) {
+        const value = collection[str].get(name)
+        collection[str].set(name, value + 1)
+      } else {
+        collection[str].set(name, 1)
+      }
     } else {
-      collection[str] = new Set([name])
+      collection[str] = new Map().set(name, 1)
     }
   }
 }
